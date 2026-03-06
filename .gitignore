@@ -1,0 +1,31 @@
+# --- 1. 屏蔽编辑器配置 ---
+.vscode/
+.history/
+
+# --- 2. 屏蔽 Ren'Py 运行/编译产生的“垃圾” ---
+/game/saves/
+/game/cache/
+*.rpyc
+*.rpymc
+*.bak
+*.new
+*.old
+/errors.txt
+/traceback.txt
+/log.txt
+
+# --- 3. 屏蔽多媒体资产 (重点) ---
+# 此时直接以 /game/ 开头即可匹配成功
+/game/images/
+/game/gui/
+/game/audio/
+/game/voice/
+
+# 全局后缀屏蔽，防止漏网之鱼
+*.ttf
+*.jpg
+*.png
+*.mp3
+*.ogg
+*.wav
+*.webp
