@@ -56,19 +56,19 @@ define gui.interface_text_color = '#ffffff'
 ## 字体和字体大小 #####################################################################
 
 ## 游戏内文本使用的字体。
-define gui.text_font = "SourceHanSansLite.ttf"
+define gui.text_font = "HanChanJinShuSong_Pro_Soft.otf"
 
 ## 角色名称使用的字体。
-define gui.name_text_font = "SourceHanSansLite.ttf"
+define gui.name_text_font = "HanChanJinShuSong_Pro_Soft.otf"
 
 ## 游戏外文本使用的字体。
-define gui.interface_text_font = "SourceHanSansLite.ttf"
+define gui.interface_text_font = "HanChanJinShuSong_Pro_Soft.otf"
 
 ## 普通对话文本的大小。
-define gui.text_size = 33
+define gui.text_size = 40
 
 ## 角色名称的大小。
-define gui.name_text_size = 45
+define gui.name_text_size = 55
 
 ## 游戏用户界面中文本的大小。
 define gui.interface_text_size = 33
@@ -368,6 +368,8 @@ define gui.nvl_text_xpos = 675
 define gui.nvl_text_ypos = 12
 define gui.nvl_text_width = 885
 define gui.nvl_text_xalign = 0.0
+
+define gui.nvl_text_line_spacing = 5
 
 ## nvl_thought 文本（由 nvl_narrator 字符表示的文本）的位置，宽度和对齐方式。
 define gui.nvl_thought_xpos = 360
