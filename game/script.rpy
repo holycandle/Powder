@@ -6,6 +6,30 @@ define f2 = Character("江帅", color="#ff453e")
 define cold = Character("冷哥", color="#0080ff")
 define counselor = Character("辅导员", color="#03e1fe")
 define police = Character("缉毒警察", color="#03e1fe")
+
+# 制作人员滚动动画
+transform credits_roll:
+    ypos 1.0                 # 从屏幕底部开始
+    linear 15.0 ypos -1.0    # 15 秒内匀速移动到屏幕顶部之外
+
+# 制作人员列表界面
+screen credits_screen(text):
+    # 半透明黑色背景（固定，不滚动）
+    frame:
+        background Solid("#00000080")
+        xfill True
+        yfill True
+        # 滚动的内容容器
+        vbox:
+            xalign 0.5
+            at credits_roll
+            text text:
+                text_align 0.5
+                xalign 0.5
+                color "#ffffff"
+                size 24
+                font "HanChanJinShuSong_Pro_Soft.otf"
+
 # 图像资源 #-------------------------------------------------------------------------------------------------------
 image bg bar_night1 = "images/bg/bg_bar_night1.webp"
 image bg bar_night2 = "images/bg/bg_bar_night2.png"
@@ -14,6 +38,8 @@ image bg class_small_none1 = "images/bg/bg_class_small_none1.jpg"
 image bg campus_road_wet1 = "images/bg/bg_campus_road_wet1.jpg"
 image bg campus_road_sunny1 = "images/bg/bg_campus_road_sunny1.jpg"
 image bg campus_road_sunny2 = "images/bg/bg_campus_road_sunny2.jpg"
+image bg_campus_road_sunny2 = "images/bg/bg_campus_road_sunny2.jpg"
+image bg campus_road_sunny3 = "images/bg/bg_campus_road_sunny3.jpg"
 image bg dorm_corridor_sunlight1 = "images/bg/bg_dorm_corridor_sunlight1.jpg"
 image bg dorm_inside_dark1 = "images/bg/bg_dorm_inside_dark1.jpg"
 image bg dorm_inside_dark2 = "images/bg/bg_dorm_inside_dark2.jpg"
@@ -24,6 +50,18 @@ image bg campus_building2 = "images/bg/bg_campus_building2.jpg"
 image bg announcement1 = "images/bg/bg_announcement1.jpg"
 image bg class_outside1 = "images/bg/bg_class_outside1.jpg"
 image bg playground1 = "images/bg/bg_playground1.jpg"
+image bg playgrond1_pixel = "images/bg/bg_playgrond_imagine1.png"
+image bg canteen = "images/bg/bg_canteen1.jpg"
+image bg canteen1 = "images/bg/bg_canteen1.jpg"
+image bg canteen2 = "images/bg/bg_canteen2.jpg"
+image bg canteen_food_disgust1 = "images/bg/bg_canteen_food_disgust1.png"
+image bg canteen_food_normal1 = "images/bg/bg_canteen_food_normal1.jpg"
+image bg chocolate1 = "images/bg/bg_chocolate1.jpg"
+image bg dorm_chocolate1 = "images/bg/bg_dorm_chocolate1.jpg"
+image bg desk = "images/bg/bg_dorm_inside_light1.jpg"
+image bg library_outside = "images/bg/bg_library_outside.png"
+image bg drug_choclote = "images/bg/bg_chocolate1.jpg"
+image bg desk_drug_choclote = "images/bg/bg_dorm_chocolate1.jpg"
 
 # 角色立绘位置 #-----------------------------------------------------------------------------------------------------
 transform center:          # 默认居中
@@ -151,10 +189,9 @@ label start:
     # --- 开场：解离感强烈的 NVL 模式 ---
     window hide
     # 【播放心跳声及重低音效】
-    narrator_nvl "疼{w=0.4}"
-    narrator_nvl "像一把烧红的碎玻璃，顺着鼻子直接扎进脑子{w=0.5}"
-    narrator_nvl "眼球发胀，那种工业漂白粉的味道呛得人想吐{w=0.5}"
-    narrator_nvl "但这股极苦的铁锈感后面……{w=0.3}是前所未有的清醒{w=0.5}"
+    narrator_nvl "疼……像一把烧红的碎玻璃，从鼻腔一路扎进脑髓{w=0.5}"
+    narrator_nvl "眼球胀得发烫，工业漂白粉的腥味呛得胃里翻涌{w=0.5}"
+    narrator_nvl "但这股极苦的铁锈感底下……{w=0.3}是前所未有的清醒{w=0.5}"
     nvl clear
     
     narrator_nvl "保持冷静{w=0.4}"
@@ -165,7 +202,7 @@ label start:
     # --- 强力转场：利用签到码作为现实锚点 ---
     # 【音效：粉笔断裂声 + 手机急促震动】
     with hpunch # 画面剧烈摇晃
-    f1 "「小黄，别睡了！签到码要过期了，快签到」"
+    f1 "「小黄，别睡了！签到码要过期了，快！」"
 
     # --- 回到正常叙事（ADV模式） ---
     # --- 第一幕：下课 ---
@@ -175,38 +212,42 @@ label start:
     scene bg class_small_none1 with dissolve
     mc "「签到！签到码是……0721」"
     mc "「啊，签上了……」"
-    "糟糕糟糕，怎么睡着了，资料都被口水浸透了"
-    "手心全是冷汗。感觉黑板上的字在融化"
+
+    play music relaxed2 loop fadein 2.0
+
+    "糟了糟了，怎么睡着了"
+    "完了，资料都被口水泡烂了。黑板上的字好像在游"
 
     show Zishun supportFrame1 with dissolve
     f1 "「昨晚没睡好吗？」"
-    mc "「别说了，昨晚找那个 Bug 找了大半夜，最后发现分号打成中文字符了」"
+    mc "「别提了，昨晚找那个Bug熬到半夜，最后发现分号打成中文的」"
     
     show Zishun rubChin1 with dissolve
     f1 "「事已至此，先吃饭吧」"
     
     scene bg campus_building2 with dissolve
     scene bg_campus_road_sunny2 with dissolve
-    "每天都在走同样的路，看到同样的风景，听到同样的声音"
-    "去年的这个暑假，我对大学生活的幻想还充满绮丽的色彩和无限的可能"
-    "但是，蓝鲸大学与我的高中真的有什么差别吗？"
-    "新鲜感渐渐散去，就发现大学生活过是高中生活的一个升级版，甚至是一个更无聊的版本"
-    "对大学的生活越来越熟悉，对未来的道路却越来越陌生了"
+    "日复一日的路，日复一日的景，日复一日的声响"
+    "去年夏天，我对大学生活的幻想还是五彩缤纷"
+    "可蓝鲸大学跟我的高中，真有那么不同吗？"
+    "新鲜感像水一样流走了，剩下的只有枯燥"
+    "对校园每一条路都烂熟于心，对未来每一步却越来越陌生"
 
 # --- 第二幕：食堂聚餐与来自冷哥的邀请 ----------------------------------------------------------------------------------------
-    #scene bg canteen with fade
+    scene bg canteen1 with fade
+    play music Happy Material loop fadein 2.0
     #（背景音：嘈杂的食堂人声，餐盘碰撞声）
     show Zishun crossArms1 at right with dissolve
     f1 "「小黄，你最近是不是在跟冷哥搞什么项目？看你整天神神秘秘的」"
 
-    mc "「啊？没有啊，就是偶尔聊聊天。冷哥说可以给我一些职业规划的建议」"
+    mc "「啊？没有啊，就是偶尔聊聊天。冷哥说可以给我点儿职业规划的建议」"
 
     show Jiangshuai ciallo2 at left with dissolve
-    f2 "「ciallo~冷哥？就是那个已经拿到大厂offer的冷峻？」"
-    f2 "「小黄你路子这么野？这种大佬你都认识」"
+    f2 "「ciallo~ 冷哥？就是那个已经拿到大厂offer的冷峻？」"
+    f2 "「小黄你路子这么野？这种大佬你都搭得上」"
 
     show Zishun rubChin1 at right with dissolve
-    f1 "「确实，冷哥是真厉害。大二就把竞赛大奖拿了个遍，大三直接进大厂实习」"
+    f1 "「确实，冷哥是真神。大二就把竞赛奖拿到手软，大三直接进大厂实习」"
     f1 "「听说他现在已经在带项目了，工资比我们辅导员都高」"
 
     mc "「是啊，他说当年大一的时候也很迷茫，所以现在想多帮帮我们这些后辈」"
@@ -214,31 +255,33 @@ label start:
     show Jiangshuai scratchHead1 at left with dissolve
     f2 "「诶，他有没有说具体怎么帮你？」"
 
-    mc "「他说有机会可以引荐一些圈子里的人认识，说大学不能只读书，要拓展人脉」"
+    mc "「他说有机会可以引荐一些圈子里的人认识，说大学不能只读书，要铺人脉」"
 
     show Zishun crossArms1 at right with dissolve
-    f1 "「这话倒是不假。冷哥肯定不只是靠成绩才成功的」"
+    f1 "「这话不假。冷哥肯定不光是靠成绩才走到今天的」"
 
+    #手机震动音效
+    stop music
     "手机突然震动了一下。"
 
     mc "「嗯？冷哥的消息……」"
 
     show Jiangshuai shrug1 at left with dissolve
-    f2 "「你这个学长也太殷勤了。吃饭都忘不掉你」"
+    f2 "「你这个学长也太上心了。吃饭都忘不掉你」"
 
     mc "「他说……今晚有个局，希望我过去」"
 
     show Zishun supportFrame1 at right with dissolve
     f1 "「今晚？什么局？」"
 
-    mc "「他说是经验分享会，认识几个创业的前辈。地点在……」"
-    mc "「Powder Bar。晚上十一点」"
+    mc "「说是经验分享会，认识几个创业的前辈。地点在……{w=0.5}Powder Bar。晚上十一点」"
 
     f1 "「十一点？还在酒吧？」"
 
     show Jiangshuai scratchHead1 at left with dissolve
     f2 "「我去，冷哥的局都这么硬核的吗？半夜去酒吧听分享会？」"
 
+    play music Happy Material loop fadein 2.0
     mc "「确实有点为难。你们觉得要去吗？」"
 
     show Zishun crossArms1 at right with dissolve
@@ -246,7 +289,7 @@ label start:
 
     mc "「嗯？为啥不去」"
 
-    f1 "「不知道，心里没底」"
+    f1 "「说不上来，心里没底」"
 
     show Jiangshuai handsOnHips1 at left with dissolve    
     f2 "「我说去」"
@@ -273,15 +316,14 @@ label start:
     f1 "「他要是真有心帮你，为什么不能约在下午的咖啡厅？非要半夜？」"
 
     show Jiangshuai handsOnHips1 at left with dissolve
-    f2 "「这是高端分享会，不是小情侣约会。繁忙的大佬都是深夜才挤得出时间」"
+    f2 "「小情侣约会吗这是？这是高端分享会，大佬都是很忙的，只有深夜才挤得出时间」"
     f2 "「冷哥什么人？大厂offer、竞赛大奖、项目带飞」"
     f2 "「冷哥一句话，顶你吭哧吭哧学半年。他愿意带你进圈子，多少人求都求不来」"
     show Jiangshuai ciallo2 at left with dissolve
     f2 "「酒吧怎么了？985 985，就是要在酒吧舞啊」"
 
     show Zishun rubChin1 at right with dissolve
-    f1 "「……」"
-    f1 "「这事儿我们说也没用，看小黄自己吧」"
+    f1 "「……{w=0.5}这事儿我们说也没用，看小黄自己吧」"
     
     mc "「我想……」"
     "去不去？"
@@ -296,15 +338,18 @@ label start:
     f2 "「唉！」"
 
 # --- 第三幕：化粪池爆炸与决心赴约 ----------------------------------------------------------------------------------------
-    #scene bg campus_road_night
-    "啊~~~"
-    "从图书馆出来，情不自禁地伸了个懒腰"
-    "对了，冷哥消息还没回"
-    "已经十点多了吗……"
+    scene bg library_outside with fade
+
+    play music 空の夕 loop fadein 2.0
+
+    "啊~~~{w=0.5}从图书馆出来，情不自禁地伸了个懒腰"
+    "对了，冷哥消息还没回……{w=0.5}已经十点多了吗"
     "校园里已经没什么人了，路灯下偶尔有几个夜归的学生"
     "11点果然还是太晚了，而且还在酒吧，感觉不太安全"
     "还是拒绝吧！"
-    #电话声
+    
+    #电话音效
+    stop music
     "江帅？这时候打电话干什么，要我带泡面吗？"
     mc "「喂，江帅？怎么了？」"
 
@@ -316,57 +361,61 @@ label start:
 
     mc "「别废话了。直接说坏消息吧」"
 
-    f2 "「哦，我们寝室化粪池炸了」"
+    play music funny1 loop fadein 2.0
+    f2 "「我们寝室化粪池炸了」"
 
-    mc "「什么……玩意？」"
+    mc "「什么玩意」"
 
     f2 "「化粪池炸了」"
 
     mc "「这还能有好消息吗！？」"
 
-    f2 "「好消息就是我们俩都逃生了，你就放心吧！就是你在阳台上挂的衣服……呵呵，我们没有抢救成功」"
+    f2 "「好消息就是我们俩都逃生了，你就放心吧！就是你在阳台上挂的衣服……{w=0.3}呵呵，我们没有抢救成功」"
 
     mc "「根本就没想抢救吧！」"
 
     f2 "「怎么说呢……总之阿姨让我们今晚尽量别回寝室了，学校现在在安排住宿。不过回来也睡不了，粪围感太强了」"
 
-    mc "「行，我知道了……」"
+    mc "「行，我知道了」"
+    play music 空の夕 loop fadein 2.0
     "受不了了"
     "这学校还能住一点吗？"
-    "明明正打算洗个澡爬上床结束这疲惫的一天，结果现在无家可归"
-    "呆呆站在原地，大脑一片空白"
-    "要去哪里？"
+    "明明正打算爬上床结束这疲惫的一天，结果现在无家可归"
+    "呆呆站在原地，大脑一片空白……{w=0.5}要去哪里？"
     "一旦计划被打乱，迷茫与焦虑就会爬上大脑"
-    "不对不对。保持冷静，不要慌张"
+    "保持冷静，不要慌张"
 
     $ goToBar = 0
     while goToBar == 0:
         menu:
             "所以，要去哪里？"
             "图书馆":
-                "图书馆吗？不行，走回头路不是我的风格"
+                "图书馆吗？{w=0.5}不行，走回头路不是我的风格"
             "寝室":
-                "回寝室吗？很有胆量的选择啊"
+                "回寝室吗？{w=0.5}很有胆量的选择啊"
                 "泰戈尔说什么来着，生活以痛吻我，我要报之以歌"
                 "不过生活拿粪投我，我还是稍微避避吧……"
             "Powder Bar":
                 $ goToBar = 1
 
     "对了，去分享会！"
-    # 电话铃声
+
+    stop music
+    # 电话音效
+
     cold "「喂，小黄？」"
     mc "「喂，冷哥，那个分享会还在吗……」"
 
-    cold "「当然在啊」"
-    cold "「我已经在包间了，Powder Bar二楼，门口有人接你」"
+    cold "「当然在啊。{w=0.3}我已经在包间了，Powder Bar二楼，门口有人接你」"
     cold "「前辈们都等着呢，别紧张，就当来喝杯饮料聊聊天{w=0.3}哈哈」"
 
-    mc "「Okay，我马上过去」"
+    mc "「OK，我马上过去」"
+
     scene black with dissolve          # 先清空所有背景，淡入纯黑
     window hide
     nvl clear
     narrator_nvl "其实这辈子还没去过酒吧，有点紧张……"
-    narrator_nvl "但是，顾虑太多会让行动变得沉重"
+    narrator_nvl "但是顾虑太多会让行动变得沉重"
     narrator_nvl "更何况，冷哥这次分享会的含金量看来确实很高"
     narrator_nvl "感谢化粪池，让我有了一个冒险的理由"
     nvl clear
@@ -374,42 +423,49 @@ label start:
     
 # ---  第四幕：酒吧分享会 ----------------------------------------------------------------------------------------
     "打了个滴，不久就到了Powder Bar"
+    scene bg bar night1 with fade
     scene bg bar_night2 with hpunch
+    
+    play music 疑惑 loop fadein 2.0
+
     "葡萄美酒夜光杯，冷哥的局果然不一般"
-    "烟味、酒味、笑声混在一起"
-    "昏黄灯光摇曳，晃得人眼睛发酸，可能因为平时在寝室都不开灯"
+    "烟味、酒味、笑声混在一起。昏黄灯光摇曳，晃得人眼睛发酸"
 
     show Zhiyuan towerHands1 with dissolve
-    cold "小黄！这边！快坐我旁边！"
-    mc "冷哥……不好意思，我来晚了。"
-    cold "不晚不晚！正好赶上分享高潮！"
+    cold "「小黄！这边！快坐我旁边！」"
 
-    # 快速介绍（保持节奏）
+    mc "「冷哥……不好意思，我来晚了」"
+
+    cold "「不晚不晚！正好赶上分享高潮！」"
+
     cold "来，我给你介绍——"
     cold "这位是做AI创业的张总，那位是字节跳动前产品经理。"
 
-    "大家笑着点头。"
-    "第一次参加这种局，不知道说什么好，手指不自觉握紧了杯子"
+    scene bg bar_night_bottle1 with dissolve
+
+    "大家笑着点头"
+    "第一次参加这种局，不知道说什么好，呆呆数着酒瓶"
     "除了冷哥还有几个不认识的人，看头发像摸爬滚打多年的程序员"
-    "资源触达……赛道红利……人脉即杠杆——大佬们的词汇，顺着平滑的大脑表面，一滴一滴滑过去……"
+    "资源触达……赛道红利……人脉即杠杆——大佬们的词汇，顺着大脑表面滑过去……"
     "听得很清楚，却什么也没留下来。{w=0.3}悟了一点，又好像完全没悟"
 
-    scene black with dissolve
+    scene bg bar_night2 with fade
 
     show Zhiyuan handsOnHips1 with dissolve
-    cold "小黄，你有潜力！"
-    cold "来，干一杯！"
+
+    stop music
+
+    cold "「小黄，你有潜力！{w=0.3}来，我们干一杯！」"
 
     scene bg bar_night_bottle1 with dissolve
-    "冷哥拿着那瓶开着的酒，要给我倒酒。不过那瓶酒刚才是不是都没人动过？"
-    "他举着杯，眼里柔和了昏黄灯光，闪过一丝异样眼神"
+    
+    "冷哥拿的那瓶酒刚才出现过吗？突然感觉有点不对劲"
+    "他眼里柔和了昏黄灯光，闪过一丝异样眼神"
     "突然觉得有点不舒服"
-    "说起来，刚进来就有点头痛，是酒精的原因吗？"
-    "可能还是昨晚没睡好，感觉今天一天都怪怪的"
+    "说起来，刚进来就有点头痛，是酒精的原因吗？可能还是昨晚没睡好"
 
-    mc "谢谢冷哥，我喝这个"
+    mc "「谢谢冷哥，今天有点头晕，我喝这个度数少的吧」"
 
-    "拿了另一瓶鸡尾酒，倒在酒杯里"
     "陌生场合不要轻易接受陌生人的饮料，尤其是酒精饮料，这个道理还是懂的"
     "冷哥可以放心，但这不舒服的环境让人放心不了"
     "更何况，今天这状态也不想喝酒……"
@@ -437,21 +493,21 @@ label badEnd:
 
     mc "「冷哥，这啥酒啊？是不是有点问题？……」"
     mc "「怎么感觉自己轻飘飘的……」"
-    mc "「WOC，这酒里面有东西」"
+    mc "「WOC，这酒里面{size=+10}有东西{/size}」"
 
     show Zhiyuan rubChin1 with dissolve
     cold "「哎别急，刚刚啊，我只是在杯壁抹了一丁点」"
-    cold "「但是如果，直接吸进去的话你就觉得……人就非常开心」"
+    cold "「但是如果直接吸进去的话，你就觉得……人就非常开心」"
 
-    mc "「抹什么？吸什么？」"
-    mc "「冷哥，你……」"
+    play music 疑念 loop fadein 2.0
+
+    mc "「抹什么？吸什么？{w=0.5}冷哥，你……」"
     
-    "已经语无伦次了，只能感觉到背上冒出一阵冷汗，夹杂着溢出的快感"
+    "背上冒出一阵冷汗，夹杂着溢出的快感"
     "冷哥拆开一个纸包，露出白色的粉末"
 
     show Zhiyuan handsOnHips1 with dissolve
-    cold "「来，你先粘点在嘴巴上，尝一下味道」"
-    cold "「以后再慢慢教你这些」"
+    cold "「来，你先粘点在嘴巴上，尝一下味道。以后再慢慢教你这些」"
     
     "冷哥把沾了粉末的手指伸来"
     "后退的力气都没了"
@@ -475,17 +531,19 @@ label badEnd:
             "心跳好像比刚才快了一点。"    
 
     show Zhiyuan crossArms1 with dissolve
-    cold "对，粘点在牙齿边边上"
-    cold "吸气"
-    
-    mc "「WOC这个感觉！」"
+
+    cold "「对，粘点在牙齿边边上{w=1}吸气」"
+
+    mc "「啊啊啊……这个感觉！」"
     
     cold "「以后你就跟着我，我这有的是现货。你放心，平时搞点儿，不会影响学习」"
-    "摊在沙发上，任由眼前的场景随着视线流动，放大，变幻"
+
+    "眼前的场景随着视线流动，放大，变幻"
     "已经听不清冷哥说啥了，也听不了，看不了，思考不了"
     "就这样摊一辈子吧"
-    scene black with dissolve
-    "要在生命洪流最丰沛的时候，及时关上时间的阀门"
+    
+    scene black
+    "{w=0.5}要在生命洪流最丰沛的时候，及时关上时间的阀门{w=0.5}"
 
 # ---  第五幕：寝室 --------------------------------------------------------------------------------------------------
     scene bg dorm_inside_light1 with fade
@@ -509,10 +567,8 @@ label badEnd:
     scene black with fade
     scene bg dorm_inside_dark1 with dissolve
 
-    "不知道怎么回的寝室"
-    "昨晚的事就当做一场梦吧"
-    "可是手里已经不自觉掏出了“电子烟”"
-    "说是电子烟，其实是掺杂了合成大麻素的上头电子烟"
+    "不知道怎么回的寝室。昨晚的事就当做一场梦吧"
+    "可是手里已经不自觉掏出了“电子烟”{w=0.5}说是电子烟，其实是掺杂了{color=#ff453e}合成大麻素{/color}"
     "冷哥说，这个东西对身体没什么伤害，偶尔抽抽放松一下还是可以的"
     "其实我知道，这是毒品，不该碰"
     "但是现在全身的骨头感觉在被针刺。每动一下，那些针就在肉里搅动，又痒又痛，想挠又挠不到"
@@ -521,6 +577,7 @@ label badEnd:
     "再不抽就要死了"
     "没关系……就一口……没事……"
     scene black with Dissolve(2)
+
 # ---  第六幕：和顺子一起校园跑 ----------------------------------------------------------------------------------------
     #模糊摇晃的画面
     scene bg playground1 with hpunch
@@ -542,9 +599,8 @@ label badEnd:
     show Zishun supportFrame1 with dissolve
     f1 "「我拉你起来。{w=0.5}我去，你心率都200了……别跑了，再跑要猝死了！」"
 
-    scene black with fade
-    "身子完全垮了"
-    "感觉自己脚上拖了两个哑铃一样沉重"
+    scene bg playgrond1_pixel 
+    "身子完全垮了，感觉自己脚上拖了两个哑铃一样沉重"
     "跑道像液体一样起伏，世界是个巨大的像素RPG……"
     "明明才两圈"
     scene black with Dissolve(2)
@@ -560,7 +616,7 @@ label badEnd:
     cold "「小黄，来这么早啊」"
     show Zhiyuan handsOnHips1 with dissolve
     
-    mc "「早上好」"
+    mc "「早」"
 
     show Zhiyuan crossArms1 with dissolve
     cold "「给你打电话也不接，学长我也会担心的。看你变得这么憔悴」"
@@ -573,7 +629,7 @@ label badEnd:
     show Zhiyuan crossArms1 with dissolve
     cold "「废话也不说了，看看这个吧」" 
 
-    #scene bg drug_choclote with dissolve
+    scene bg drug_choclote with dissolve
     mc "「巧克力？」"
 
     cold "「嘿嘿，这可比巧克力刺激多了」"
@@ -581,7 +637,7 @@ label badEnd:
 
     mc "「难道查不出来吗？」"
 
-    cold "「巧克力啊？你吃巧克力别人查什么」" 
+    cold "「巧克力啊！你吃巧克力别人查什么」" 
     cold "「嘿嘿，咱们亲兄弟，明算账。一片500」"
 
     mc "「你那时候在酒吧明明说是免费的？！」"
@@ -591,17 +647,17 @@ label badEnd:
 
     mc "「你这不都是涨价套路么」"
 
-    cold "「一分钱一分货。你以为你那点电子烟就已经是极致体验了吗？too young too simple」"
-    cold "「这玩意可没那么简单。刚接触的人都是鼻吸，吸收率只有20%%」"
-    cold "「等你再吸几次，鼻吸就不够了，到时候你就会去烫吸，让热雾化的毒品通过鼻腔快速吸入肺部。顺着毛细血管进入血液循环"
-    cold "「还没完呢，烫吸的吸收率也没到一半，你迟早会觉得不够。这时候还要再爽，就只能注射」"
+    cold "「一分钱一分货。你以为你那点电子烟就已经是极致体验了吗？」"
+    cold "「这玩意可没那么简单。刚接触的人都是{color=#ff453e}鼻吸{/color}，吸收率只有20%%」"
+    cold "「等你再吸几次，{color=#ff453e}鼻吸{/color}就不爽了，到时候你就会去{color=#ff453e}烫吸{/color}，让毒品热雾化，通过鼻腔快速吸入肺部。顺着毛细血管进入血液循环"
+    cold "「还没完呢，{color=#ff453e}烫吸{/color}的吸收率也没到一半，你迟早会觉得不够。这时候还要再爽，就只能{color=#ff453e}注射{/color}」"
     cold "「没点人引路，你就只能自己摸索，你会往胳膊上、腿上等四肢的每一寸皮肤下死手，看着它们慢慢坏死」"
     cold "「等每一寸皮肤都坏死，就只有一个地方可以注射了」"
 
     mc "「哪里？」"
 
     cold "「脖子」"
-    cold "「这就叫作“开天窗”，也是吸毒的最后阶段。等那时候，你就知道什么叫飞升极乐世界了！」"
+    cold "「这就叫作{color=#ff453e}开天窗{/color}，也是吸毒的最后阶段。等那时候，你就知道什么叫飞升极乐世界了！」"
 
     cold "「我能告诉你这么多，也不怕你不吸」"
     cold "「谁不知道这玩意不好？意志力在毒瘾面前算个屁！哼哼」"
@@ -617,7 +673,7 @@ label badEnd:
     #饭菜照片
     "味同嚼蜡，难以下咽"
     "正常美食能带来50%% - 100%%的多巴胺提升，但是毒品带来的多巴胺提升可能是正常食物的数十倍甚至上百倍"
-    "加上电子烟抽多了，唾液分泌减少，口干舌燥"
+    "加上电子烟抽多了，唾液分泌不出来，口干舌燥，喝再多水都没用"
     "感觉自己像一头在农场里吃草的牛"
     
     #scene bg canteen with dissolve
@@ -635,11 +691,10 @@ label badEnd:
 
     mc "「滚你的吧」"
 
-    "原来我还找江帅借过钱，我究竟还做了什么事……不行，想不起来"
+    "原来我还找江帅借过钱，我究竟还做了什么事……{w=0.5}不行，想不起来"
     "这不就跟被夺舍了一样吗……"
     "江帅是不是已经知道我的事了？感觉他刚才说话的眼神有点怪怪的"
-    "虽然江帅不像是能看出什么端倪的人"
-    "还是小心点比较好……"
+    "虽然江帅不像是能看出什么端倪的人，还是小心点比较好……"
 
     f2 "「小黄，感觉你最近有点奇怪啊」"
 # ---  第九幕：突击查寝（上部分） ---------------------------------------------------------------------------------------------------
@@ -663,11 +718,12 @@ label badEnd:
     mc "「别东拉西扯了！」"
 
     #拉帘子声
-    #bg desk with dissolve
+    scene bg desk with dissolve
     "发明床下帘的人真是个天才"
-    "不管他们的叹气，我已经迫不及待想试试那个巧克力了"
+    "感觉自己最近性格变得很狂躁"
+    "不管了，已经迫不及待想试试那个巧克力了"
     
-    #bg drug_choclote with dissolve
+    scene bg desk_drug_choclote with dissolve
 
     #敲门声
 
@@ -679,15 +735,14 @@ label badEnd:
 
     #敲门声
 
-    mc "「不是，谁在敲门啊？！」"
+    mc "「不是，谁在{size=+5}敲门{/size}啊？！」"
     
     counselor "「614开门，查寝~」"
 
     mc "「呵，这学校还查上寝了」"
 
     scene bg dorm_inside_light1 with fade
-    "拉开帘子，大步走到门口，打开门"
-    "把手转动的那一刻，感觉整个世界都静止了"
+    "怎么回事——{w=0.5}把手转动的那一刻，感觉整个世界都静止了"
     "顺子他们怎么不开门？怎么就我听到了敲门声？{w=0.5}难道是幻听？"
     "不对啊刚刚没吃下去，不会发作啊"
     "对了，也没有查寝的通知才对，查寝也不应该在深夜吧"
@@ -696,7 +751,7 @@ label badEnd:
     # 时间回溯：插叙室友是如何举报的
     scene black with dissolve
 
-    show text "时间回到昨天"
+    show text "{size=+10}时间回到昨天{/size}"
 
     with Pause(1.0)
 
@@ -706,71 +761,72 @@ label scene_10:
     # 背景音：食堂嘈杂人声、碗筷碰撞声
 
     show Zishun supportFrame1 at right with dissolve
-    f1 "江帅，你有没有觉得小黄最近怪怪的？"
+    f1 "「江帅，你有没有觉得小黄最近怪怪的？」"
 
     show Jiangshuai scratchHead1 at left with dissolve
-    f2 "你也发现了？我还以为就我一个人这么想。"
+    f2 "「你也发现了？我还以为就我一个人这么想」"
 
     show Zishun rubChin1 at right
-    f1 "他这周逃了三次专业课了，辅导员已经在群里问情况。"
+    f1 "「他这周逃了三次专业课了，辅导员已经在群里问情况」"
 
     show Jiangshuai shrug1 at left
-    f2 "而且他脸色越来越差，黑眼圈快掉到嘴角了。上回一起吃饭，他扒了两口就去厕所吐了。"
+    f2 "「而且他脸色越来越差，黑眼圈快掉到嘴角了。上回一起吃饭，他扒了两口就去厕所吐了」"
 
     show Zishun crossArms1 at right
-    f1 "还有上次**找我借了800块**，说是买参考书，叽里咕噜说一大堆，结果我问了书店，根本没那本书。"
+    f1 "「还有上次找我借了800块，说是买参考书，叽里咕噜说一大堆，结果我问了书店，根本没那本书」"
 
     show Jiangshuai handsOnHips1 at left
-    f2 "**他也找我借过500**，到现在都没还。我问他要，他就说下个月，但眼看着他越来越瘦，花钱却越来越大手大脚。"
+    f2 "「他也找我借过500，到现在都没还。我问他要，他就说下个月，但眼看着他越来越瘦，花钱却越来越大手大脚」"
 
-    f2 "你说……他是不是碰了什么东西？"
+    f2 "「你说……他是不是碰了什么东西？」"
 
     show Zishun supportFrame1 at right
-    f1 "你是说……"
+    f1 "「你是说……」"
 
-    f2 "**毒品**。我表哥以前就是这样，先是大把掉头发，然后金额越借越大，最后进了戒毒所。"
+    f2 "「{color=#ff453e}毒品{/color}。我表哥以前就是这样，先是大把掉头发，然后金额越借越大，最后进了戒毒所」"
 
     show Zishun rubChin1 at right
-    f1 "可他以前不是挺上进的啊。冷哥介绍的项目，他当成宝贝一样珍惜……"
+    f1 "「可他以前不是挺上进的啊。冷哥介绍的项目，他这么珍惜……」"
 
     show Jiangshuai ciallo1 at left
-    f2 "问题就出在那个冷哥身上！我偷偷看到小黄微信聊天记录，冷哥发了一堆什么'巧克力''电子烟''新人优惠'，还让他'别声张'。"
+    f2 "「问题就出在那个冷哥身上！我偷偷看到小黄微信聊天记录，冷哥发了一堆什么{color=#ff453e}“巧克力”{/color}{color=#ff453e}“电子烟”{/color}{color=#ff453e}“新人优惠”{/color}，还让他别声张」"
 
     f2 "而且小黄上周半夜在阳台抽一种很奇怪的电子烟，味道发甜，但不是水果味——是化学味的甜。"
 
     show Zishun crossArms1 at right
-    f1 "不行，这不能拖着。他自己已经控制不住了，再下去人就毁了。"
+    f1 "「不行，这不能拖着。他自己已经控制不住了，再下去人就毁了」"
 
     show Jiangshuai shrug1 at left
-    f2 "可是咱们直接跟他说，他肯定翻脸。你没看他现在脾气大得很吗"
+    f2 "「可是咱们直接跟他说，他肯定翻脸。你没看他现在脾气大得很吗」"
 
-    f1 "那就不跟他说，直接找能管他的人。"
+    f1 "「那就不跟他说，直接找能管他的人」"
 
-    f2 "找辅导员？"
+    f2 "「找辅导员？」"
 
-    f1 "对。辅导员有经验，学校也有禁毒联络员。我们不用自己冒险，只要把看到的、听到的如实告诉辅导员就行。"
+    f1 "「对。辅导员有经验，学校也有禁毒联络员。我们不用自己冒险，只要把看到的、听到的如实告诉辅导员就行」"
 
-    f2 "可是……冷哥那边会不会报复啊？他认识那么多社会人……"
+    f2 "「可是……冷哥那边会不会报复啊？他认识那么多社会人……」"
 
-    f1 "怕什么？我们是为了保护同学。辅导员会保密，而且举报吸毒是每个公民的义务。你忘了那个讲座了？缉毒警察说了，学生群体发现可疑情况，第一时间报告老师或拨打110。"
+    f1 "「怕什么？我们是为了保护同学。辅导员会保密，而且举报吸毒是每个公民的义务。
+    你忘了那个讲座了？缉毒警察说了，学生群体发现可疑情况，{color=#ffcc00}第一时间报告老师或拨打110{/color}"
 
     show Jiangshuai scratchHead1 at left
-    f2 "……行！你说得对。再拖下去要大事不妙"
+    f2 "「……行！你说得对。再拖下去要大事不妙」"
 
-    f1 "吃完饭我就给辅导员打电话。你这几天也留意一下，把小黄借钱的转账记录、反常行为的时间点整理出来。"
+    f1 "「吃完饭我就给辅导员打电话。你这几天也留意一下，把小黄借钱的转账记录、反常行为的时间点整理出来」"
 
     show Jiangshuai ciallo2 at left
-    f2 "好。就这么办"
+    f2 "「好。就这么办」"
 
     scene black with dissolve
 
-    show text "当小黄打开门……"
+    show text "{size=+10}当小黄打开门……{/size}"
 
     with Pause(1.0)
 # ---  第十一幕：突击查寝（下部分） ---------------------------------------------------------------------------------
     # 回到开门后的画面
     scene bg dorm_inside_light1 with dissolve
-    counselor "小黄，别紧张。我们接到举报，怀疑你涉嫌持有和吸食毒品。"
+    counselor "「小黄，别紧张。我们接到举报，怀疑你涉嫌持有和吸食毒品，需要配合调查」"
 
     mc "「什……什么？我没有！」"
 
@@ -781,7 +837,7 @@ label scene_10:
 
     mc "「就……就是普通巧克力啊……」"
 
-    police "「普通巧克力？那为什么里面掺了白色粉末？」"
+    police "「普通巧克力？待会带回去检查一下」"
 
     mc "「……」"
 
@@ -808,7 +864,7 @@ label scene_10:
     
     # 淡入黑屏，显示结局画面
     scene black with dissolve
-    show text "BAD END" with dissolve
+    show text "{size=+20}BAD END{/size}" with dissolve
     # 也可以显示自定义图片，例如：
     # show bg_badend with dissolve
 
@@ -817,5 +873,160 @@ label scene_10:
     return
 
 label trueEnd:
+# ---  第十二幕：拒绝喝酒 ------------------------------------------------------------------------------------
+    scene bg bar_night2 with dissolve
+    mc "「冷哥，不好意思，我今天不太舒服，就不喝了。」"
+
+    show Zhiyuan rubChin1 with dissolve
+    cold "「怎么？不给面子啊？就一小口，不会怎么样的」"
+
+    mc "「真的不行，我酒精过敏。改天我请你喝咖啡吧！」"
+
+    "冷哥眼神里闪过一丝失望，但很快又恢复了笑容。"
+
+    show Zhiyuan crossArms1 with dissolve
+    cold "「行吧，那你喝饮料。来，尝尝这个果汁。」"
+
+    "他递过来一杯橙色的液体。我摇了摇头，站起来。"
+
+    mc "「冷哥，我突然想起来明天一早还有实验课，我现在头痛的厉害，得先走了。谢谢你的邀请」"
+
+    show Zhiyuan handsOnHips1 with dissolve
+    cold "「这么早？分享会还没结束呢……」"
+
+    mc "「真对不住，下次一定。」"
+
+    "没有再给他挽留的机会，快步走出了酒吧包间。"
+    "身后传来冷哥和几个前辈的笑声，后背发凉。"
+
+    scene black with dissolve
+    "走出 Powder Bar，夜风吹在脸上，我深深吸了一口气。"
+    "手机震动了一下，是冷哥发来的消息：「小黄，你太紧张了，下次我单独请你」"
+
+# ---  第十三幕：冷哥被抓，食堂聚餐反思 ----------------------------------------------------------------------------------
+
+    scene black with dissolve
+    show text "半个月后……" with dissolve
+    pause 1.5
+
+    scene bg campus_road_wet1 with dissolve
+    "半个月后的一天中午，我刚从图书馆出来，手机上弹出一条新闻推送"
+    "缉毒警察破获了一起校园贩毒案，主犯冷峻被刑事拘留"
+    "新闻标题刺眼而冰冷：「名校学长借分享会之名，诱骗多名学生吸毒」"
+    "配图里，冷哥穿着橙色拘留服，低着头，再也看不出当初那个意气风发的样子"
+
+    "我的手微微发抖，不是因为害怕，而是后怕。"
+
+    mc "「如果那天我没坚持拒绝……现在穿这身衣服的，会不会也有我一个？」"
+
+    #scene bg canteen with dissolve
+    "食堂里，顺子和江帅已经占好了位置。他们看到我，招手让我过去。"
+
+    show Zishun supportFrame1 at right with dissolve
+    f1 "「小黄，你看到新闻了吗？」"
+
+    mc "「看到了。冷哥……呸，冷峻被抓了。」"
+
+    show Jiangshuai scratchHead1 at left with dissolve
+    f2 "「我靠，真是他啊？我还以为只是重名」"
+    f2 "「听说他贩卖的毒品里含有{color=#ff453e}“芬太尼”{/color}，好几个人吸过量差点死了」"
+
+    mc "「有那么严重吗？」"
+
+    show Zishun crossArms1 at right
+    f1 "「新闻里说了，有一个大二的学弟，被他用同样的套路骗到酒吧，第一次就吸过量，直接送ICU抢救了」"
+
+    mc "「……那个学弟活下来了吗？」"
+
+    show Jiangshuai shrug1 at left
+    f2 "「命保住了，但医生说神经系统已经受损，可能一辈子都要做康复治疗」"
+
+    "眼前仿佛出现了一个模糊的身影——那个学弟可能也像我一样，曾经以为冷哥是值得信赖的前辈"
+
+    show Zishun lookUp1 at right
+    f1 "「小黄，你知道最可怕的是什么吗？辅导员上午来宿舍，说冷峻在审讯时交代，他第一次在酒吧给你倒的酒里，掺了{color=#ff453e}“GHB”{/color}」"
+
+    mc "「{color=#ff453e}“GHB”{/color}？」"
+
+    show Jiangshuai handsOnHips1 at left
+    f2 "「就是{color=#ff453e}“神仙水”{/color}，无色无味，喝下去十几分钟就会昏迷。他本来想把你完全控制了再下手」"
+
+    "后背瞬间被冷汗浸透。那天如果不是我坚持不喝，现在躺在医院的可能就是我"
+
+    # 插入一段回忆闪回（可选，用文字描述）
+    scene black with dissolve
+    "脑海里又浮现出那夜酒吧的昏黄灯光，冷哥递过来那杯酒时，眼神里一闪而过的异样……"
+    scene bg canteen with dissolve
+
+    mc "「我……我当时只是觉得不对劲，没想到会这么危险」"
+
+    show Zishun supportFrame1 at right
+    f1 "「所以你做到了很多人做不到的事——在那种场合说不」"
+    f1 "「辅导员说，冷峻案里还有好几个学生，一开始都在犹豫，最后碍于面子糊里糊涂喝了那杯酒，结果再也回不了头」"
+
+    show Jiangshuai scratchHead1 at left
+    f2 "「小黄，说实话，当时你要真喝了，我和顺子可能也不会怪你，但……我们肯定会后悔一辈子」"
+    f2 "「还好你够清醒」"
+
+    mc "「我想还是你们平时总在我耳朵边上嘀咕'酒吧不靠谱、学长太殷勤'，让我潜意识里留了个心眼」"
+
+    show Zishun crossArms1 at right
+    f1 "「哈哈，那看来我们比辅导员还管用」"
+
+    # 场景转换到校园小路，三人边走边聊
+    scene bg campus_road_sunny1 with dissolve
     
+    show Zishun rubChin1 at right with dissolve
+    f1 "「小黄，你说冷哥以前那么好的人，怎么就变成这样了？」"
+
+    mc "「可能……他一开始也只是想“试试”，觉得能控制住，结果越陷越深，最后要靠卖毒品来维持自己的毒瘾」"
+
+    show Jiangshuai scratchHead1 at left with dissolve
+    f2 "「所以毒品这东西，一次都不能试，试试就逝世啊」"
+
+    show Zishun crossArms1 at right with dissolve
+    f1 "「对，永远不要相信自己能控制住它，它只会把人拖进深渊！」"
+
+    scene bg playground1 with dissolve
+
+    scene black with dissolve
+    show text "{size=+20}TRUE END{/size}" with dissolve
+    pause 2.0
+    scene black with dissolve
+    # 开始滚动制作人员表
+    window hide
+    $ credits_text = """
+制作人员表（按姓氏排序）
+
+总策划      黄杰
+剧本创作    李锦程 刘蒋帅 南皓洋 庞宏宇
+摄影美术    李丞渊 刘展言 庞宏宇
+剪辑后期    江定山 冷志远 李丞渊
+背景音乐    李锦程
+音　　效    黄杰
+技术支持    黄杰 刘蒋帅
+
+
+演职人员表
+
+小黄    黄杰
+顺子    刘子顺
+江帅    刘蒋帅
+冷哥    冷志远
+辅导员  待补充
+缉毒警察 待补充
+
+
+特别感谢：所有参与测试和反馈的同学
+
+实践地点：南京大学
+指导老师：陆杰峰
+
+珍爱生命，远离毒品。
+拒绝第一口，从你我做起。
+    """
+    show screen credits_screen(credits_text)
+    pause 20.0   # 滚动时长，与 transform 中的时间保持一致
+    hide screen credits_screen
+
     return
