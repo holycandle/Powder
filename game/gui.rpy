@@ -80,13 +80,13 @@ define gui.label_text_size = 36
 define gui.notify_text_size = 24
 
 ## 游戏标题的大小。
-define gui.title_text_size = 75
+define gui.title_text_size = 150
 
 
 ## 标题和游戏菜单 #####################################################################
 
 ## 标题菜单和游戏菜单使用的图像。
-define gui.main_menu_background = "gui/main_menu.png"
+define gui.main_menu_background = "gui/face.png"
 define gui.game_menu_background = "gui/game_menu.png"
 
 
